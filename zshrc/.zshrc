@@ -104,7 +104,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source <(fzf --zsh)
 alias vi=nvim
-alias cd=z
+#alias cd=z
 alias find=fd
 #vim keybinding
 set -o vi

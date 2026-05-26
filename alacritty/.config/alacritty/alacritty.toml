@@ -22,7 +22,7 @@ multiplier = 3
 normal = { family = "Adwaita Mono", style = "Regular" }
 bold   = { family = "Adwaita Mono", style = "Bold" }
 italic = { family = "Adwaita Mono", style = "Italic" }
-size   = 13.0
+size   = 12.0
 
 # Slight adjustments for Iosevka-based fonts which can feel narrow
 [font.offset]
@@ -48,7 +48,7 @@ bindings = [
   { key = "V", mods = "Control|Shift", action = "Paste" },
 ]
 
-# Colors — Adwaita dark, matches your GNOME setup
+# Colors — Adwaita dark, matches the GNOME setup
 [colors.primary]
 background = "#1E1E1E"
 foreground = "#ffffff"
