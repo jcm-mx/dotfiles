@@ -109,7 +109,7 @@ alias find=fd
 #vim keybinding
 set -o vi
 # opencode
-export PATH=/home/jcm/.local/bin:/home/jcm/.opencode/bin:$PATH
+export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
 
 eval "$(zoxide init zsh)"
 # shellcheck shell=bash
