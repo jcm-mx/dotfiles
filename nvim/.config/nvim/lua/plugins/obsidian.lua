@@ -28,7 +28,8 @@ return {
       },
 
       completion = {
-        nvim_cmp = true,
+        nvim_cmp = false,
+        blink = true,
         min_chars = 2, -- autocomplete [[links]] after 2 chars
       },
 
