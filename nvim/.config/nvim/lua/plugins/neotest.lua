@@ -7,15 +7,26 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-python",
     },
-    opts = {
-      adapters = {
-        ["neotest-python"] = {
-          dap = { justMyCode = false },
-          runner = "pytest",
-          python = ".venv/bin/python", -- adjust if you use a different venv path
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-python")({
+            dap = { justMyCode = false },
+            runner = "pytest",
+            python = function()
+              local cwd = vim.fn.getcwd()
+              for _, venv in ipairs({ ".venv", "venv", "env" }) do
+                local python = cwd .. "/" .. venv .. "/bin/python"
+                if vim.fn.executable(python) == 1 then
+                  return python
+                end
+              end
+              return vim.fn.exepath("python3") or "python"
+            end,
+          }),
         },
-      },
-    },
+      })
+    end,
     keys = {
       {
         "<leader>tt",
@@ -36,7 +47,7 @@ return {
         function()
           require("neotest").run.run(vim.fn.expand("%:p:h"))
         end,
-        desc = "Run test suite",
+        desc = "Run test suite (directory)",
       },
       {
         "<leader>to",
@@ -52,9 +63,6 @@ return {
         end,
         desc = "Toggle summary",
       },
-      { "<leader>ta", "<cmd>NeotestSetArgs<cr>", desc = "Set pytest args" },
-      { "<leader>tA", "<cmd>NeotestShowArgs<cr>", desc = "Show pytest args" },
-      { "<leader>tx", "<cmd>NeotestClearArgs<cr>", desc = "Clear pytest args" },
     },
   },
 }
