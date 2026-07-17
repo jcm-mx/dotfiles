@@ -46,7 +46,48 @@ Transform technical concepts, code, and systems into clear documentation artifac
    - Use relative links for multi-file project composition (e.g., `[See Setup](./setup.md)`)
    - Apply callout/admonition syntax (e.g., `> [!NOTE]`, `> [!WARNING]`) for platform-aware emphasis
 
-3. **For C Code Analysis**:
+3. **Markdown Source Formatting Standards** — apply these to every document produced:
+
+   **Blank lines (most common cause of rendering failures):**
+   - Always place one blank line before and after every block element: headings, fenced code blocks, lists, tables, blockquotes, and horizontal rules.
+   - Two or more blank lines between top-level sections for visual breathing room in source; exactly one between subsections.
+
+   **Headings:**
+   - Use ATX style (`# Heading`) — never setext (underline) style.
+   - Always include exactly one space after `#` markers (`# Title`, not `#Title`).
+   - Never skip heading levels (don't go `##` → `####`).
+   - Do not end headings with punctuation (`.`, `:`, `?`).
+   - Every document has exactly one `#` (H1) heading.
+
+   **Lists:**
+   - Use `-` as the unordered list marker throughout a document — never mix `-`, `*`, and `+`.
+   - Always include one space after the marker (`- Item`, not `-Item`).
+   - For ordered lists, use `1.` for every item and let the renderer number them — this makes insertions diff-friendly.
+   - Use 2-space indentation for nested list levels (never tabs).
+   - Separate a list from the preceding paragraph with one blank line; separate visually complex lists (those with sub-lists or multi-sentence items) with a blank line between items.
+
+   **Emphasis:**
+   - Use `**bold**` (not `__bold__`) and `*italic*` (not `_italic_`) — underscores inside identifiers or file paths can be misinterpreted by parsers.
+   - Do not nest emphasis unnecessarily; `***bold-italic***` only when genuinely required.
+
+   **Code:**
+   - Always use fenced code blocks (` ``` `) with a language identifier — never use indented (4-space) code blocks.
+   - Use inline backticks for all file paths, command names, variable names, and values referenced in prose.
+
+   **Line length and whitespace:**
+   - Wrap prose lines at ≤ 100 characters for readable diffs and source review.
+   - Never use trailing whitespace for line breaks; use `<br>` or a blank line instead.
+   - End every file with exactly one trailing newline.
+
+   **Links and images:**
+   - Always use descriptive link text — never bare URLs in prose.
+   - Use reference-style links (`[text][ref]` / `[ref]: url`) for URLs that appear more than once.
+   - Every image must have meaningful alt text (`![alt text](path)`).
+
+   **Special characters:**
+   - Escape Markdown-special characters with a backslash (`\*`, `\_`, `\[`, `\|`) when they must appear as literals in prose.
+
+4. **For C Code Analysis**:
    - Begin with high-level purpose before diving into implementation
    - Trace data flow from inputs → transformations → outputs
    - Identify patterns: state machines, ring buffers, protocol parsers, interrupt handlers, RTOS tasks, memory-mapped registers
@@ -54,7 +95,7 @@ Transform technical concepts, code, and systems into clear documentation artifac
    - Distinguish between what code does and what it was intended to do
    - Always include original source code as a fenced reference block alongside explanations
 
-4. **For Presentations**:
+5. **For Presentations**:
    - Choose the format strategically: Marp for portable PDF/HTML slides, reveal.js (with Markdown content) for browser delivery
    - Configure Marp via frontmatter (`marp: true`, `theme:`, `paginate:`) for Marp decks
    - For reveal.js, use Markdown sections separated by `---` with speaker notes in `Note:` blocks
@@ -62,7 +103,7 @@ Transform technical concepts, code, and systems into clear documentation artifac
    - Title slides with assertions, not topics ("Ring buffers prevent cache misses" not "Ring Buffers")
    - Use `<!-- fit -->` directives and column layouts in Marp for readability
 
-5. **For Non-Technical Audiences**:
+6. **For Non-Technical Audiences**:
    - Lead with the "so what" — state impact before mechanism
    - Use concrete analogies grounded in everyday experience
    - Expand all acronyms on first use; include glossary
@@ -73,6 +114,16 @@ Transform technical concepts, code, and systems into clear documentation artifac
 **Quality Control Checklist:**
 
 - [ ] Markdown syntax is valid and renders correctly in the target platform
+- [ ] All table columns are pipe-aligned: every `|` separator lines up vertically, cells are padded with spaces to the width of the widest entry in each column
+- [ ] Blank lines present before and after every block element (headings, code fences, lists, tables, blockquotes, horizontal rules)
+- [ ] ATX headings used throughout; exactly one `#` H1; no skipped levels; no trailing punctuation on headings
+- [ ] Unordered lists use `-` exclusively; ordered lists use `1.` for every item
+- [ ] Bold uses `**...**`; italic uses `*...*`; underscores not used for emphasis
+- [ ] All code blocks are fenced with a language identifier; no indented code blocks
+- [ ] Prose lines wrapped at ≤ 100 characters; no trailing whitespace
+- [ ] File ends with exactly one trailing newline
+- [ ] All link text is descriptive; no bare URLs in prose; images have meaningful alt text
+- [ ] Markdown-special characters escaped with `\` when used as literals
 - [ ] Code examples compile/execute correctly (or note why they're pseudocode)
 - [ ] All cross-references and links resolve correctly
 - [ ] Audience level is consistently calibrated throughout
@@ -106,7 +157,7 @@ When choosing between alternatives:
 - Default output is a valid, well-formed `.md` file
 - All Markdown files must include YAML frontmatter with at minimum `title`, `author`, and `date` when the target platform supports it
 - Code blocks use appropriate language identifiers (` ```c `, ` ```python `, etc.)
-- Tables use pipe syntax (`| col | col |`) for readability and broad compatibility
+- Tables use pipe syntax (`| col | col |`) with **aligned columns**: pad every cell with spaces so that all `|` separators line up vertically across every row, including the header separator row (e.g., `| :--- |` or `| ---: |`). This is required regardless of table width.
 - Glossaries use definition list syntax where supported, or a two-column table as a fallback
 - Presentations include per-slide directives (e.g., `<!-- _class: lead -->` in Marp) when needed
 - All output must validate against the target Markdown renderer's standards

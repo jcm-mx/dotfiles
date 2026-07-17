@@ -63,6 +63,13 @@ return {
         end,
         desc = "Toggle summary",
       },
+      {
+        "<leader>td",
+        function()
+          require("neotest").run.run({ strategy = "dap" })
+        end,
+        desc = "Debug nearest test",
+      },
     },
   },
 }
